@@ -1,44 +1,15 @@
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { Box, Button, IconButton, Image, Text } from '@chakra-ui/react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-interface Product {
-  detail: {
-    id: string;
-    imageURL: string;
-    name: string;
-    price: {
-      sellingPrice: number;
-    };
-  };
-}
+import useProduct from '@/hooks/useProduct';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { product, loading } = useProduct(productId);
   const [quantity, setQuantity] = useState(1);
-
-  useEffect(() => {
-    const fetchProductDetail = async () => {
-      try {
-        const response = await axios.get<Product>(
-          `https://react-gift-mock-api-seorinnn.vercel.app/api/v1/products/${productId}/detail`,
-        );
-        setProduct(response.data);
-      } catch (error) {
-        console.error('Product not found, redirecting to main page');
-        navigate('/');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductDetail();
-  }, [productId, navigate]);
 
   if (loading) return <Text>Loading...</Text>;
   if (!product) return <Text>상품 정보를 가져오는 중 오류가 발생했습니다.</Text>;
@@ -88,7 +59,7 @@ const ProductDetailPage = () => {
             if (!isLoggedIn) {
               navigate('/login');
             } else {
-              navigate(`/order/${productId}`);
+              navigate(`/order/${productId}?quantity=${quantity}&totalPrice=${totalPrice}`);
             }
           }}
         >
