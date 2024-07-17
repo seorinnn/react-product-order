@@ -47,6 +47,7 @@ export const ThemeGoodsSection = ({ themeKey }: Props) => {
               title={name}
               amount={price.sellingPrice}
               subtitle={brandInfo.name}
+              productId={id}
             />
           ))}
         </Grid>
