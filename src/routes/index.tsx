@@ -5,6 +5,7 @@ import { HomePage } from '@/pages/Home';
 import { LoginPage } from '@/pages/Login';
 import { MyAccountPage } from '@/pages/MyAccount';
 import ProductDetailPage from '@/pages/ProductDetail';
+import PurchasePage from '@/pages/Purchase';
 import { ThemePage } from '@/pages/Theme';
 
 import { PrivateRoute } from './components/PrivateRoute';
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: RouterPath.productDetail(':productId'),
         element: <ProductDetailPage />,
+      },
+      {
+        path: RouterPath.order(':productId'),
+        element: <PurchasePage />,
       },
       {
         path: RouterPath.notFound,
