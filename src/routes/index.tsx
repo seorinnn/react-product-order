@@ -4,6 +4,7 @@ import { Layout } from '@/components/features/Layout';
 import { HomePage } from '@/pages/Home';
 import { LoginPage } from '@/pages/Login';
 import { MyAccountPage } from '@/pages/MyAccount';
+import ProductDetailPage from '@/pages/ProductDetail';
 import { ThemePage } from '@/pages/Theme';
 
 import { PrivateRoute } from './components/PrivateRoute';
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             element: <MyAccountPage />,
           },
         ],
+      },
+      {
+        path: RouterPath.productDetail(':productId'),
+        element: <ProductDetailPage />,
       },
       {
         path: RouterPath.notFound,
