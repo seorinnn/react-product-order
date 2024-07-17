@@ -88,7 +88,7 @@ const ProductDetailPage = () => {
             if (!isLoggedIn) {
               navigate('/login');
             } else {
-              navigate(`/product/${productId}/gift`);
+              navigate(`/order/${productId}`);
             }
           }}
         >
