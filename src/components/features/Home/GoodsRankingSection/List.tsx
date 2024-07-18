@@ -36,6 +36,7 @@ export const GoodsRankingList = ({ goodsList }: Props) => {
             title={name}
             amount={price.sellingPrice}
             subtitle={brandInfo.name}
+            productId={id}
           />
         ))}
       </Grid>
