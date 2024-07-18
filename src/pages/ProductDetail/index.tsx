@@ -43,26 +43,26 @@ const ProductDetailPage = () => {
       />
       <Box ml="20">
         <Text fontSize="x-large">{product.detail.name}</Text>
-        <Text fontSize="xx-large" mt="10">
-          {product.detail.price.sellingPrice}원
-        </Text>
-        <Box display="flex" alignItems="center" mt="40">
+        <Text fontSize="xx-large">{product.detail.price.sellingPrice}원</Text>
+        <Box display="flex" alignItems="center" mt="10">
           <IconButton
             aria-label="Decrease quantity"
             icon={<MinusIcon />}
             onClick={() => handleQuantityChange(-1)}
           />
-          <Text mx="20">{quantity}</Text>
+          <Text fontSize="x-large" mx="10">
+            {quantity}
+          </Text>
           <IconButton
             aria-label="Increase quantity"
             icon={<AddIcon />}
             onClick={() => handleQuantityChange(1)}
           />
         </Box>
-        <Text fontSize="xl" fontWeight="bold" my="20">
+        <Text fontSize="xl" fontWeight="bold" mt="10" mb="5">
           총 결제금액: {totalPrice}원
         </Text>
-        <Button padding="10" border="1px solid" borderColor="gray.400" onClick={handleGift}>
+        <Button border="1px solid" borderColor="gray.400" onClick={handleGift}>
           나에게 선물하기
         </Button>
       </Box>
