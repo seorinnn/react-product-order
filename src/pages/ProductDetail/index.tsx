@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import useProduct from '@/hooks/useProduct';
+import { authSessionStorage } from '@/utils/storage';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -19,6 +20,18 @@ const ProductDetailPage = () => {
   };
 
   const totalPrice = product.detail.price.sellingPrice * quantity;
+
+  //나에게 선물하기 버튼 클릭 시 로그인 여부 확인
+  const handleGift = () => {
+    const authToken = authSessionStorage.get();
+    if (!authToken) {
+      //로그인이 되어있지 않은 경우
+      navigate('/login');
+    } else {
+      //로그인이 되어있는 경우
+      navigate(`/order/${productId}?quantity=${quantity}&totalPrice=${totalPrice}`);
+    }
+  };
 
   return (
     <Box display="flex" alignItems="center" mt="30" ml="30">
@@ -49,20 +62,7 @@ const ProductDetailPage = () => {
         <Text fontSize="xl" fontWeight="bold" my="20">
           총 결제금액: {totalPrice}원
         </Text>
-        <Button
-          padding="10"
-          border="1px solid"
-          borderColor="gray.400"
-          onClick={() => {
-            //로그인 로직은 추후 수정
-            const isLoggedIn = true;
-            if (!isLoggedIn) {
-              navigate('/login');
-            } else {
-              navigate(`/order/${productId}?quantity=${quantity}&totalPrice=${totalPrice}`);
-            }
-          }}
-        >
+        <Button padding="10" border="1px solid" borderColor="gray.400" onClick={handleGift}>
           나에게 선물하기
         </Button>
       </Box>
