@@ -1,6 +1,7 @@
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { Box, Button, IconButton, Image, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import useProduct from '@/hooks/useProduct';
@@ -11,12 +12,37 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const { product, loading } = useProduct(productId);
   const [quantity, setQuantity] = useState(1);
+  const [giftOrderLimit, setGiftOrderLimit] = useState(1);
+
+  //giftOrderLimit 데이터 가져오기
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const response = await axios.get(
+          `https://react-gift-mock-api-seorinnn.vercel.app/api/v1/products/${productId}/options`,
+        );
+        setGiftOrderLimit(response.data.options.giftOrderLimit);
+      } catch (error) {
+        console.error('Error fetching product options:', error);
+      }
+    };
+
+    fetchOptions();
+  }, [productId]);
 
   if (loading) return <Text>Loading...</Text>;
   if (!product) return <Text>상품 정보를 가져오는 중 오류가 발생했습니다.</Text>;
 
   const handleQuantityChange = (change: number) => {
-    setQuantity((prevQuantity) => Math.max(1, prevQuantity + change));
+    setQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity + change;
+
+      //최소 개수
+      if (newQuantity < 1) return 1;
+      //최대 개수
+      if (newQuantity > giftOrderLimit) return giftOrderLimit;
+      return newQuantity;
+    });
   };
 
   const totalPrice = product.detail.price.sellingPrice * quantity;
